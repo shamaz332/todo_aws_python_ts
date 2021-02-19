@@ -10,21 +10,25 @@ tableName = os.environ['TODOS_TABLE']
 table = dynamodb.Table(tableName)
 
 
-
 def getItem():
     try:
         res = table.scan()
         data = res['Items']
         print(json.dumps(res))
         print(json.dumps(data))
-        
+
     except Exception as error:
-        
+
         print(error)
         raise
     else:
-        print(f'Response = {data}')
-        return data
-        
-    
-
+    return {
+        'statusCode': 200,
+        'headers': {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Access-Control-Allow-Credentials': 'true',
+            'Content-Type': 'application/json'
+        },
+        'body': json.dumps(data)
+    }

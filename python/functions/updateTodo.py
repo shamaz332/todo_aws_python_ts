@@ -18,13 +18,15 @@ def updateItem(todo):
     try:
         res = table.update_item(
             Key={
-                id: todo.id
-            },
-            ExpressionAttributeValues={
-                ":d": todo.title
+                'id': todo['id'],
+
             },
             UpdateExpression="set title = :d",
-            ReturnValues="Updated_New",
+            ExpressionAttributeValues={
+                ":d": todo['title']
+            },
+            
+            ReturnValues="UPDATED_NEW",
 
 
 
@@ -32,16 +34,3 @@ def updateItem(todo):
     except ClientError as e:
         logging.error(e)
     return json.dumps(todo)
-
-    # prefix = "set"
-    # attributes = todo.keys()
-    # for i in range(len(attributes)):
-    #     attribute = attributes[i]
-    #     if attribute != "id":
-    #         params["UpdateExpression"] += prefix + \
-    #             "#" + attribute + " = :" + attribute
-    #         params["ExpressionAttributeValues"][":" +
-    #                                             attribute] = todo[attribute]
-    #         params["ExpressionAttributeNames"]["#" + attribute] = attribute
-    #         prefix = ", "
-    #         prefix = ", "
