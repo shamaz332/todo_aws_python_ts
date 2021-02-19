@@ -1,20 +1,28 @@
 from __future__ import print_function
 from addTodo import addTodoItem
+from getTodo import getItem
+from deleteTodo import deleteItem
 import os
 import boto3
 import logging
 from botocore.exceptions import ClientError
 dynamodb = boto3.resource('dynamodb')
 
-def handler(event,context):
-    print(event)
+
+def handler(event, context):
+
     field = event['info']['fieldName']
-    # todoId = event['arguments']['todoId']
-    todo = event['arguments']['todo']
-    print(field)
+
 
 
     if field == "addTodo":
+        todo = event['arguments']['todo']
         addTodoItem(todo)
-    # else:
-    #     null
+    elif field == "getTodos":
+        getItem()
+    elif field == "deleteTodo":
+        todoId = event['arguments']['todoId']
+
+        deleteItem(todoId)
+    else:
+        print("No matched")
